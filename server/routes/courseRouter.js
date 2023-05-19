@@ -1,23 +1,19 @@
 const express = require('express');
 const router = express.Router();
-
+const { addCourse, updateCourse, getCourseById, getCourses } = require('../controllers/courseController');
 
 
 //private/protected routes
-router.post('/add', (req, res) => {
-    res.status(200).json('courses added successfully');
-})
+router.post('/add', addCourse);
 
 
-router.put('/update', (req, res) => {
-    res.status(200).json('Courses updated successfully');
-});
+router.put('/update', updateCourse);
 
 
 //public routes
-router.get('/get', (req, res) => {
-    res.status(200).json('courses retrieved successfully');
-});
+router.get('/get', getCourses);
+
+router.get('/get/:courseCode', getCourseById);
 
 
 

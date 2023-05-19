@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
-// options 
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-};
+
 
 mongoose.set('strictQuery', true);
 
 
 const connectDatabase = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_DB, options);
+        await mongoose.connect(process.env.MONGO_DB);
         console.log('MongoDB connected successfully'.cyan.underline.bold);
     } catch (error) {
         console.log('Error connecting to MongoDB'.red.underline.bold);

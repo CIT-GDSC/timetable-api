@@ -12,7 +12,10 @@ const asyncHandler = require('express-async-handler');
 
 const addCourse = asyncHandler(async (req, res) => {
     const { courseCode, courseName, courseDepartment, HeadOfDepartment } = req.body;
-
+    if (!courseCode || !courseName || !courseDepartment || !HeadOfDepartment) {
+        res.status(400);
+        throw new Error('Invalid or no data passed, refusing to continue');
+    }
     const validateCourse = await Course.findOne({ courseCode });
     try {
         if (validateCourse) {
