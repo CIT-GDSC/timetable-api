@@ -7,3 +7,8 @@ const unitModel = new Schema({
     unitName: { type: String, required: true },
     trainer: { type: String, required: true },
 });
+
+
+
+
+const Unit = mongoose.model('Unit', unitModel);
