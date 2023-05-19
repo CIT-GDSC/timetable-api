@@ -51,26 +51,22 @@ const addCourse = asyncHandler(async (req, res) => {
 
 const updateCourse = asyncHandler(async (req, res) => {
     const { courseCode, courseName, courseDepartment, HeadOfDepartment } = req.body;
+    const course = await Course.findById(req.params.id);
     try {
-        const course = await Course.findById(req.params.id);
         if (course) {
             course.courseCode = courseCode;
             course.courseName = courseName;
             course.courseDepartment = courseDepartment;
             course.HeadOfDepartment = HeadOfDepartment;
-
             const updatedCourse = await course.save();
-            res.json({
-                _id: updatedCourse._id,
-                courseCode: updatedCourse.courseCode,
-                courseName: updatedCourse.courseName,
-                courseDepartment: updatedCourse.courseDepartment,
-                HeadOfDepartment: updatedCourse.HeadOfDepartment
-            });
+
+
+            res.json(updatedCourse);
         } else {
             res.status(404);
             throw new Error('Course not found');
         }
+
     } catch (error) {
         res.status(500);
         throw new Error(error);

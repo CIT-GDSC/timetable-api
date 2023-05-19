@@ -7,7 +7,7 @@ const { addCourse, updateCourse, getCourseById, getCourses } = require('../contr
 router.post('/add', addCourse);
 
 
-router.put('/update', updateCourse);
+router.put('/update/:id', updateCourse)
 
 
 //public routes
