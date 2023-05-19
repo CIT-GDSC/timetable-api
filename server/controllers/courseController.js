@@ -90,15 +90,19 @@ const getCourses = asyncHandler(async (req, res) => {
 
 
 
-const getCourseById = asyncHandler(async (req, res) => {
+const getCourseByCode = asyncHandler(async (req, res) => {
     const { courseCode } = req.body;
+    if (!courseCode) {
+        res.status(400);
+        throw new Error('No course ID is passed, refusing to continue');
+    }
     try {
         const course = await Course.findOne({ courseCode });
         if (course) {
             res.json(course);
         } else {
             res.status(404);
-            throw new Error('Course not found');
+            throw new Error('Course not found, please check the course ID and try again');
         }
     } catch (error) {
         res.status(500);
@@ -107,4 +111,4 @@ const getCourseById = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { addCourse, updateCourse, getCourses, getCourseById };
+module.exports = { addCourse, updateCourse, getCourses, getCourseByCode };
