@@ -6,6 +6,10 @@ const colors = require('colors');
 
 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const connectDB = require('./mongoose/index');
+connectDB();
+
+
 
 app.use(cors());
 app.use(express.json());
