@@ -21,8 +21,8 @@ app.get('/api', (req, res) => {
 });
 
 //routes
-app.use('/api/courses', require('./routes/unitsRouter'));
-app.use('/api/units', require('./routes/coursesRouter'));
+app.use('/api/units', require('./routes/unitRouter'));
+app.use('/api/courses', require('./routes/courseRouter'));
 
 
 
