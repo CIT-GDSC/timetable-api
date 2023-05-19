@@ -5,9 +5,15 @@ const cors = require('cors');
 const colors = require('colors');
 
 
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-
+app.use(notFound);
+app.use(errorHandler);
 
 
 
