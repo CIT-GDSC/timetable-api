@@ -1,8 +1,8 @@
 {
   "name": "timetable-api",
   "version": "1.0.0",
-  "description": "This is a timetable api for a typicall college",
-  "main": "index.js",
+  "description": "This is a timetable aprsi for a typicall college",
+  "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +25,8 @@
   "dependencies": {
     "argon2": "^0.30.3",
     "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
