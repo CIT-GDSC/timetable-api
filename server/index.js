@@ -12,10 +12,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(notFound);
+// app.use(notFound);
 app.use(errorHandler);
 
+// dummy route
+app.get('/api', (req, res) => {
+    res.status(200).json('Welcome to the server');
+});
 
+//routes
+app.use('/api/courses', require('./routes/unitsRouter'));
+app.use('/api/units', require('./routes/coursesRouter'));
 
 
 
