@@ -73,3 +73,39 @@ const updateCourse = asyncHandler(async (req, res) => {
         throw new Error(error);
     }
 });
+
+
+//@desc get all courses
+//@private: false
+
+
+const getCourses = asyncHandler(async (req, res) => {
+    try {
+        const courses = await Course.find({});
+        res.json(courses);
+    } catch (error) {
+        res.status(500);
+        throw new Error(error);
+    }
+});
+
+
+
+const getCourseById = asyncHandler(async (req, res) => {
+    const { courseCode } = req.body;
+    try {
+        const course = await Course.findOne({ courseCode });
+        if (course) {
+            res.json(course);
+        } else {
+            res.status(404);
+            throw new Error('Course not found');
+        }
+    } catch (error) {
+        res.status(500);
+        throw new Error(error);
+    }
+});
+
+
+module.exports = { addCourse, updateCourse, getCourses, getCourseById };
