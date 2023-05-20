@@ -7,7 +7,6 @@ const unitModel = new Schema({
     unitName: { type: String, required: true },
     parentCourse: { type: String, required: true },
     unitDescription: { type: String, required: true },
-    trainer: { type: String, required: true },
 });
 
 

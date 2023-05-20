@@ -5,8 +5,8 @@ const Course = require('../models/courseModel');
 
 
 const addUnit = expressAsyncHandler(async (req, res) => {
-    const { unitCode, unitName, postponed, parentCourse, trainer, unitDescription } = req.body;
-    if (!unitCode || !unitName || !parentCourse || !trainer) {
+    const { unitCode, unitName, postponed, parentCourse, unitDescription } = req.body;
+    if (!unitCode || !unitName || !parentCourse || !unitDescription) {
         res.status(400);
         throw new Error('Unable to add unit. Please provide all required fields.');
     }
@@ -15,7 +15,7 @@ const addUnit = expressAsyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Code already in use, Please change the unit code.');
     }
-    const unit = new Unit({ unitCode, unitName, postponed, parentCourse, trainer, unitDescription });
+    const unit = new Unit({ unitCode, unitName, postponed, parentCourse, unitDescription });
     const createdUnit = await unit.save();
     if (createdUnit) {
         res.status(201).json({ message: 'Unit added successfully.', unit: createdUnit });
@@ -40,7 +40,6 @@ const updateUnit = expressAsyncHandler(async (req, res) => {
         unit.unitCode = req.body.unitCode || unit.unitCode;
         unit.unitName = req.body.unitName || unit.unitName;
         unit.parentCourse = req.body.parentCourse || unit.parentCourse;
-        unit.trainer = req.body.trainer || unit.trainer;
         unit.unitDescription = req.body.unitDescription || unit.unitDescription;
     }
     const updatedUnit = await unit.save();
