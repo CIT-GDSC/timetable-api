@@ -1,13 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { addCourse, updateCourse, getCourseByCode, getCourses } = require('../controllers/courseController');
+const {  getCourseByCode, getCourses } = require('../../controllers/courseController');
 
-
-//private/protected routes
-router.post('/add', addCourse);
-
-
-router.put('/update/:id', updateCourse)
 
 
 //public routes

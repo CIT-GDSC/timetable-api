@@ -25,9 +25,13 @@ app.get('/api', (req, res) => {
 });
 
 //routes
-app.use('/api/units', require('./routes/unitRouter'));
-app.use('/api/courses', require('./routes/courseRouter'));
+//private Routes
+app.use('/api/admin/courses', require('./routes/private/courseRouter'));
+app.use('/api/admin/units', require('./routes/private/unitRouter'));
 
+//public Routes
+app.use('/api/courses', require('./routes/public/courseRouter'));
+app.use('/api/units', require('./routes/public/unitRouter'));
 
 
 app.use(errorHandler);
