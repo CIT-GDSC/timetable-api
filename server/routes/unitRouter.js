@@ -1,5 +1,5 @@
 const express = require('express');
-const { addUnit, getUnits } = require('../controllers/unitController');
+const { addUnit, getUnits, getUnitsByCourse } = require('../controllers/unitController');
 const router = express.Router();
 
 //private
@@ -11,7 +11,8 @@ router.put('/update', (req, res) => {
 
 
 //public
-router.get('/get', getUnits );
+router.get('/get', getUnits);
+router.get('/unitsbycourse', getUnitsByCourse);
 
 
 module.exports = router;

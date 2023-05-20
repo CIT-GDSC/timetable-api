@@ -1,6 +1,6 @@
 const Unit = require('../models/unitModel');
 const expressAsyncHandler = require('express-async-handler');
-
+const Course = require('../models/courseModel');
 
 
 
@@ -37,4 +37,5 @@ const getUnits = expressAsyncHandler(async (req, res) => {
 
 
 
-module.exports = { addUnit, getUnits };
+
+module.exports = { addUnit, getUnits};
