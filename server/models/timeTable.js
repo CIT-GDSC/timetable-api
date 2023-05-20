@@ -25,7 +25,7 @@ const timeTableSchema = new Schema({
         required: true,
     },
     DayOfTheWeek: {
-        type:  Date,
+        type: Date,
         required: true,
     },
     Time: {
@@ -43,7 +43,9 @@ const timeTableSchema = new Schema({
     Status: {
         type: String,
         required: true,
+        enum: ['Scheduled', 'Cancelled', 'Completed'],
     },
+
     CreatedDate: {
         type: Date,
         required: true,
