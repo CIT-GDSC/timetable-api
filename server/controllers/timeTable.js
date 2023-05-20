@@ -56,6 +56,37 @@ const getAllTimeTableEntries = expressAsyncHandler(async (req, res) => {
 });
 
 
+const updateTimeTableEntry = expressAsyncHandler(async (req, res) => {
+    try {
+        const { courseCode, unitCode, Module, trainerCode, trainerName, DayOfTheWeek, Time, Venue, Duration, Status } = req.body;
+        //validate the request
+        const validCourse = await Course.exists({ courseCode: courseCode });
+        const validUnit = await Unit.exists({ unitCode: unitCode });
+        if (!validCourse || !validUnit) {
+            res.status(400).send({ message: 'Invalid course or unit' });
+        }
+        const updateEntry = TimeTable.findByIdAndUpdate(id, {
+            courseCode,
+            unitCode,
+            Module,
+            trainerCode,
+            trainerName,
+            DayOfTheWeek,
+            Time,
+            Venue,
+            Duration,
+            Status,
+            updatedAt: Date.now(),
+        }, { new: true });
+        res.status(200).send({
+            message: 'TimeTable entry updated successfully', updateEntry
+        });
+    } catch (error) {
+        res.status(500).send({ message: 'Error updating timeTable entry: ', error });
+    }
+});
+
+
 module.exports = {
     createTimeTableEntry,
     getAllTimeTableEntries,
