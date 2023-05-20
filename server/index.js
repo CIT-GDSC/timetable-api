@@ -28,6 +28,7 @@ app.get('/api', (req, res) => {
 //private Routes
 app.use('/api/admin/courses', require('./routes/private/courseRouter'));
 app.use('/api/admin/units', require('./routes/private/unitRouter'));
+app.use('/api/admin/timetable',  require('./routes/private/timeTableRoute'));
 
 //public Routes
 app.use('/api/courses', require('./routes/public/courseRouter'));

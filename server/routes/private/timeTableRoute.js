@@ -7,3 +7,6 @@ const {createTimeTableEntry, getAllTimeTableEntries, updateTimeTableEntry} = req
 router.post('/create', createTimeTableEntry);;
 router.get('/all', getAllTimeTableEntries);
 router.put('/update', updateTimeTableEntry);
+
+
+module.exports = router;
