@@ -3,7 +3,7 @@ require('dotenv').config();
 const app = express();
 const cors = require('cors');
 const colors = require('colors');
-
+const path = require('path');
 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./mongoose/index');
@@ -24,6 +24,7 @@ app.get('/api', (req, res) => {
     res.status(200).json('Welcome to the server');
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
 //routes
 //private Routes
 app.use('/api/admin/courses', require('./routes/private/courseRouter'));
@@ -40,7 +41,7 @@ app.use('/', require('./routes/root'));
 app.all('*', (req, res) => {
     res.status(404);
     if (req.accepts('html')) {
-        res.sendFile(path.join(__dirname, 'views', 'index.html'));
+        res.sendFile(path.join(__dirname, 'views', '404.html'));
     } else if (req.accepts('json')) {
         res.json({ error: '404 Not found' });
     } else {
