@@ -71,4 +71,4 @@ const getUnitByCode = expressAsyncHandler(async (req, res) => {
 
 
 
-module.exports = { addUnit, getUnits, updateUnit};
+module.exports = { addUnit, getUnits, updateUnit, getUnitByCode};
