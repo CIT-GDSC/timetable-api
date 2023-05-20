@@ -1,5 +1,5 @@
 const express = require('express');
-const { addUnit } = require('../controllers/unitController');
+const { addUnit, getUnits } = require('../controllers/unitController');
 const router = express.Router();
 
 //private
@@ -11,9 +11,7 @@ router.put('/update', (req, res) => {
 
 
 //public
-router.get('/get', (req, res) => {
-    res.status(200).json('Units retrieved successfully');
-});
+router.get('/get', getUnits );
 
 
 module.exports = router;
