@@ -25,7 +25,7 @@ const timeTableSchema = new Schema({
         required: true,
     },
     DayOfTheWeek: {
-        type: Date,
+        type: String,
         required: true,
     },
     Time: {
