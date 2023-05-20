@@ -4,6 +4,11 @@ const { Schema } = mongoose;
 
 
 const timeTableSchema = new Schema({
+    timeTableName: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     courseCode: {
         type: String,
         required: true,
@@ -43,7 +48,7 @@ const timeTableSchema = new Schema({
     Status: {
         type: String,
         required: true,
-        enum: ['Scheduled', 'Cancelled', 'Completed'],
+        enum: ['Scheduled', 'Postponed', 'Completed'],
     },
 
 }, { timestamps: true });
