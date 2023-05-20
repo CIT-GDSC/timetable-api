@@ -46,16 +46,7 @@ const timeTableSchema = new Schema({
         enum: ['Scheduled', 'Cancelled', 'Completed'],
     },
 
-    CreatedDate: {
-        type: Date,
-        required: true,
-        default: Date.now,
-    },
-    ModifiedDate: {
-        type: Date,
-    },
-
-});
+}, { timestamps: true });
 
 
 const TimeTable = mongoose.model('TimeTable', timeTableSchema);
