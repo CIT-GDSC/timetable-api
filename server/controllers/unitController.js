@@ -33,9 +33,42 @@ const getUnits = expressAsyncHandler(async (req, res) => {
 });
 
 
+//update
+const updateUnit = expressAsyncHandler(async (req, res) => {
+    const unit = await Unit.findById(req.params.id);
+    if (unit) {
+        unit.unitCode = req.body.unitCode || unit.unitCode;
+        unit.unitName = req.body.unitName || unit.unitName;
+        unit.parentCourse = req.body.parentCourse || unit.parentCourse;
+        unit.trainer = req.body.trainer || unit.trainer;
+        unit.unitDescription = req.body.unitDescription || unit.unitDescription;
+    }
+    const updatedUnit = await unit.save();
+    if (updatedUnit) {
+        res.status(200).json({ message: 'Unit updated successfully.', unit: updatedUnit });
+    } else {
+        res.status(500);
+        throw new Error('Unable to update unit.');
+    }
+});
+
+
+//get unit by code
+const getUnitByCode = expressAsyncHandler(async (req, res) => {
+    const { unitCode } = req.body;
+    if (!unitCode) {
+        res.status(400);
+        throw new Error('Please provide unit code.');
+    }
+    const unit = await Unit.findOne({ unitCode });
+    if (unit) {
+        res.status(200).json(unit);
+    } else {
+        res.status(404);
+        throw new Error('No unit found.');
+    }
+});
 
 
 
-
-
-module.exports = { addUnit, getUnits};
+module.exports = { addUnit, getUnits, updateUnit};
