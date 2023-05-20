@@ -90,5 +90,6 @@ const updateTimeTableEntry = expressAsyncHandler(async (req, res) => {
 module.exports = {
     createTimeTableEntry,
     getAllTimeTableEntries,
+    updateTimeTableEntry,
 };
 
