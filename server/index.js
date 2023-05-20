@@ -28,7 +28,7 @@ app.get('/api', (req, res) => {
 //private Routes
 app.use('/api/admin/courses', require('./routes/private/courseRouter'));
 app.use('/api/admin/units', require('./routes/private/unitRouter'));
-app.use('/api/admin/timetable',  require('./routes/private/timeTableRoute'));
+app.use('/api/admin/timetable', require('./routes/private/timeTableRoute'));
 
 //public Routes
 app.use('/api/courses', require('./routes/public/courseRouter'));
@@ -38,4 +38,4 @@ app.use('/api/units', require('./routes/public/unitRouter'));
 app.use(errorHandler);
 
 
-app.listen(process.env.SERVER_PORT, () => { console.log(`Server is running on port ${process.env.SERVER_PORT}`.yellow.bold)});
+app.listen(process.env.SERVER_PORT, () => { console.log(`Server is running on port ${process.env.SERVER_PORT}`.yellow.bold) });
