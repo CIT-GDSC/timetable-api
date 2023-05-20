@@ -35,6 +35,19 @@ app.use('/api/courses', require('./routes/public/courseRouter'));
 app.use('/api/units', require('./routes/public/unitRouter'));
 
 
+//default routes
+app.use('/', require('./routes/root'));
+app.all('*', (req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    } else if (req.accepts('json')) {
+        res.json({ error: '404 Not found' });
+    } else {
+        req.type('txt').send('404 Not found');
+    }
+});
+
 app.use(errorHandler);
 
 
