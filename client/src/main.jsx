@@ -1,8 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { RouterProvider } from 'react-router-dom'
-import router from './router.js'
+import AuthLayout from './components/layouts/AuthLayout.js'
+
+
+
+import {
+  RouterProvider,
+  Route, 
+  createBrowserRouter
+} from 'react-router-dom'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App/>,
+  },
+])
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
