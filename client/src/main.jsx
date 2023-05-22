@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import Error from './Err/404.js'
 import App from './App.jsx'
-import AuthLayout from './components/layouts/AuthLayout.js'
 
 
 
@@ -16,6 +16,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <App/>,
   },
+  {
+    path: '*',
+    element: <Error/>,
+  }
 ])
 
 
