@@ -18,7 +18,9 @@ const { connectDatabase } = require('./database/mongoose.module');
 
 
 // Connect to database
-connectDatabase();
+let promise;
+promise = connectDatabase();
+
 app.use(errorhandler);
 
 app.listen(process.env.PORT, () => {
