@@ -11,6 +11,11 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('fields cannot be blank')
         }
+        const payload = {
+            id: student._id,
+            admissionNo: student.admissionNo,
+        }
+        const studentToken = student.generateAuthToken(payload);
         const student = await Student.create({
             userName,
             email,
@@ -18,13 +23,8 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             isCouncil,
             department,
             admissionNo,
+            token: studentToken
         });
-        // FIXME: Uncomment this when you have the auth token
-        const payload = {
-            id: student._id,
-            admissionNo: student.admissionNo,
-        }
-        const studentToken = student.generateAuthToken(payload);
         if (student) {
             res.status(200);
             res.json({

@@ -1,10 +1,10 @@
+const { mongoose } = require('mongoose');
 require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const colors = require('colors');
 const bodyParser = require('body-parser');
-const { mongoose } = require('mongoose');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -18,8 +18,10 @@ const { connectDatabase } = require('./database/mongoose.module');
 
 
 // Connect to database
-let promise;
 promise = connectDatabase();
+
+app.use('/api/student', require('./routes/studentRoute.service'));
+
 
 app.use(errorhandler);
 
