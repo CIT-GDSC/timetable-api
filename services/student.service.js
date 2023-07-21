@@ -24,7 +24,16 @@ const studentSchema = new mongoose.Schema({
     department: {
         type: String,
         required: true,
-    }
+    },
+    isverified: {
+        type: String,
+        required: true
+    },
+    admissionNo: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 });
 
 

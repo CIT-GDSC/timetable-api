@@ -6,7 +6,7 @@ mongoose.set('strictQuery', true);
 
 const connectDatabase = async () => {
     try {
-        const conn = await mongoose.connect(process.env.DB_URI);
+        const conn = await mongoose.connect(process.env.mongo_db);
     } catch (error) {
         console.log(error);
         process.exit(1);

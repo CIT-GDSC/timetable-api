@@ -23,7 +23,7 @@ promise = connectDatabase();
 
 app.use(errorhandler);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.port  , () => {
     console.log(`Server running on port ${process.env.PORT}`.yellow.bold);
     console.log(`attempting to connect to database...`.yellow.bold);
 });

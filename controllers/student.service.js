@@ -1,13 +1,13 @@
 //save student
 
-const Student = require('../models/student.service');
+const Student = require('../services/student.service');
 const expressAsyncHandler = require('express-async-handler');
+const generateAuthToken = require('../utilities/generateToken');
 
-
-const createStudent = expressAsyncHandler( async( req, res)=>{
-    const {userName, email, course, isCouncil, department } = req.body;
-    try{
-        if(!userName || !email || !course || !department){
+const createStudent = expressAsyncHandler(async (req, res) => {
+    const { userName, email, course, isCouncil, department, admissionNo } = req.body;
+    try {
+        if (!userName || !email || !course || !department || !admissionNo) {
             res.status(400);
             throw new Error('fields cannot be blank')
         }
@@ -16,9 +16,16 @@ const createStudent = expressAsyncHandler( async( req, res)=>{
             email,
             course,
             isCouncil,
-            department
+            department,
+            admissionNo,
         });
-        if(student){
+        // FIXME: Uncomment this when you have the auth token
+        const payload = {
+            id: student._id,
+            admissionNo: student.admissionNo,
+        }
+        const studentToken = student.generateAuthToken(payload);
+        if (student) {
             res.status(200);
             res.json({
                 userName: userName,
@@ -28,19 +35,19 @@ const createStudent = expressAsyncHandler( async( req, res)=>{
                 department: department,
             });
 
-        } else{
+        } else {
             res.status(403);
             throw new Error("Something went wrong");
         }
-    } catch (err){
+    } catch (err) {
         res.status(500);
         throw new Error(err)
     }
 });
 
 
-const getMyProfile = expressAsyncHandler( async (req, res)=>{
-    const student = await Student.findById({ _id: req.params.id});
-    student ? res.status(200).json({ student}) : res.status(404).json("No details found");
+const getMyProfile = expressAsyncHandler(async (req, res) => {
+    const student = await Student.findById({ _id: req.params.id });
+    student ? res.status(200).json({ student }) : res.status(404).json("No details found");
 })
-module.exports = { createStudent, getMyProfile}
+module.exports = { createStudent, getMyProfile }
