@@ -27,7 +27,7 @@ const studentSchema = new mongoose.Schema({
     },
     isverified: {
         type: String,
-        required: true
+        default: "unverified",
     },
     admissionNo: {
         type: String,

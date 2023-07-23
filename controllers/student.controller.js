@@ -2,10 +2,16 @@
 
 const Student = require('../services/student.service');
 const expressAsyncHandler = require('express-async-handler');
-const generateAuthToken = require('../utilities/generateToken');
+const generateToken = require('../utilities/generateToken');
 
 const createStudent = expressAsyncHandler(async (req, res) => {
-    const { userName, email, course, isCouncil, department, admissionNo } = req.body;
+    const { userName, email, course, department, admissionNo } = req.body;
+    
+    const isDuplicate = await Student.findOne({ userName});
+    if(isDuplicate){
+        res.status(400);
+        throw new Error("cannot be duplicate")
+    }
     try {
         if (!userName || !email || !course || !department || !admissionNo) {
             res.status(400);
@@ -15,24 +21,30 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             id: student._id,
             admissionNo: student.admissionNo,
         }
-        const studentToken = student.generateAuthToken(payload);
         const student = await Student.create({
             userName,
             email,
             course,
-            isCouncil,
             department,
             admissionNo,
-            token: studentToken
+            token: generateToken(payload)
         });
+        
+        // const studentToken = generateToken(payload);
+        //push token to student
+        student.insertOne({ studentToken })
+        await student.save();
         if (student) {
             res.status(200);
             res.json({
-                userName: userName,
-                email: email,
-                course: course,
-                isCouncil: isCouncil,
-                department: department,
+                userName: student.userName,
+                email: student.email,
+                course: student.course,
+                department: student.department,
+                admissionNo: student.admissionNo,
+                isCouncil: student.isCouncil,
+                isVerified: student.isverified,
+                
             });
 
         } else {

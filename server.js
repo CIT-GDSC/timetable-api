@@ -23,10 +23,15 @@ promise = connectDatabase();
 app.use('/api/student/', require('./routes/studentRoute.service'));
 
 
+
+app.use('/welcome', (req, res) => { res.send('Welcome to the student council API')});
+
+
+/**Error handlers below */
 app.use(errorhandler);
 
 app.listen(process.env.port  , () => {
-    console.log(`Server running on port ${process.env.PORT}`.yellow.bold);
+    console.log(`Server running on port ${process.env.port}`.yellow.bold);
     console.log(`attempting to connect to database...`.yellow.bold);
 });
 
