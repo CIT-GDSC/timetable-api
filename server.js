@@ -20,7 +20,7 @@ const { connectDatabase } = require('./database/mongoose.module');
 // Connect to database
 promise = connectDatabase();
 
-app.use('/api/student', require('./routes/studentRoute.service'));
+app.use('/api/student/', require('./routes/studentRoute.service'));
 
 
 app.use(errorhandler);
