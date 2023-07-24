@@ -6,9 +6,9 @@ const generateToken = require('../utilities/generateToken');
 
 const createStudent = expressAsyncHandler(async (req, res) => {
     const { userName, email, course, department, admissionNo } = req.body;
-    
-    const isDuplicate = await Student.findOne({ userName});
-    if(isDuplicate){
+
+    const isDuplicate = await Student.findOne({ userName });
+    if (isDuplicate) {
         res.status(400);
         throw new Error("cannot be duplicate")
     }
@@ -29,9 +29,6 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             admissionNo,
             token: generateToken(payload)
         });
-        
-        // const studentToken = generateToken(payload);
-        //push token to student
         student.insertOne({ studentToken })
         await student.save();
         if (student) {
@@ -44,7 +41,7 @@ const createStudent = expressAsyncHandler(async (req, res) => {
                 admissionNo: student.admissionNo,
                 isCouncil: student.isCouncil,
                 isVerified: student.isverified,
-                
+                AccessToken: student.token
             });
 
         } else {
