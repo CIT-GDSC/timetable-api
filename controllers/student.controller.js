@@ -17,19 +17,14 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('fields cannot be blank')
         }
-        const payload = {
-            id: student._id,
-            admissionNo: student.admissionNo,
-        }
         const student = await Student.create({
             userName,
             email,
             course,
             department,
             admissionNo,
-            token: generateToken(payload)
         });
-        student.insertOne({ studentToken })
+        // console.log(generateToken(payload));
         await student.save();
         if (student) {
             res.status(200);
@@ -41,7 +36,7 @@ const createStudent = expressAsyncHandler(async (req, res) => {
                 admissionNo: student.admissionNo,
                 isCouncil: student.isCouncil,
                 isVerified: student.isverified,
-                AccessToken: student.token
+                AccessToken: generateToken(student._id)
             });
 
         } else {
