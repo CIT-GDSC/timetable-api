@@ -56,7 +56,7 @@ const loginStudent = expressAsyncHandler(async (req, res) => {
         throw new Error('student seems unregistered, please register');
     }
     try {
-
+        //TODO : Add the login code
     } catch (error) {
         res.status(500);
         throw new Error('something went wrong, try again later')

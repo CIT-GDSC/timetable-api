@@ -4,10 +4,10 @@ const expressAsyncHandler = require('express-async-handler');
 
 
 
-const newGroup = expressAsyncHandler( async(req, res)=>{
-    const {groupName, groupCourse, noOfstudents, groupDepartment, groupMembers, groupLeader } = req.body;
+const newGroup = expressAsyncHandler(async (req, res) => {
+    const { groupName, groupCourse, groupDepartment, groupMembers, groupLeader } = req.body;
 
-    if(!groupName || !groupCourse || !noOfstudents || !groupDepartment || !groupMembers || !groupLeader){
+    if (!groupName || !groupCourse || !groupDepartment || !groupMembers || !groupLeader) {
         res.status(400);
         throw new Error('Fields cannot be blank')
     }
@@ -17,9 +17,15 @@ const newGroup = expressAsyncHandler( async(req, res)=>{
     */
     const validateStudent = await Student.findOne(groupMembers);
     const checkLeader = await Student.findOne(groupLeader);
-    if(!validateStudent || !checkLeader){
+    const validateGroup = await Group.findOne(groupName);
+
+    if (!validateStudent || !checkLeader) {
         res.status(404);
-        throw new Error("Could not find the group leader");
+        throw new Error("Could not find the group leader or the student ");
+    }
+    if (validateGroup) {
+        res.status(400);
+        throw new Error("error, please provide a different username")
     }
     try {
         /**
@@ -28,25 +34,52 @@ const newGroup = expressAsyncHandler( async(req, res)=>{
         const group = await Group.create({
             groupName,
             groupCourse,
-            noOfstudents,
             groupDepartment,
             groupMembers,
             groupLeader
         });
         await group.save();
-        if(group){
+        if (group) {
             res.status(200);
             res.json({
                 leader: group.groupLeader,
                 groupName: group.groupName,
                 groupCourse: group.groupCourse,
-                noOfstudents: group.noOfstudents,
                 department: group.groupDepartment,
                 Members: group.groupMembers,
             });
+        } else {
+            res.status(406);
+            throw new Error('Bad request, could not validate the request');
         }
     } catch (error) {
         res.status(400);
         throw new Error(error)
     }
 });
+
+
+const findGroup = expressAsyncHandler(async (req, res) => {
+    const { groupName } = req.body;
+    const validateGroup = await Group.findOne(groupName);
+    if (!validateGroup) {
+        res.status(403);
+        res.json("Could not find the group by the provided Name");
+    }
+    try {
+        res.status(200)
+        res.json({
+            Name: validateGroup.groupName,
+            Leader: validateGroup.groupLeader,
+            members: validateGroup.groupMembers,
+            course: validateGroup.groupCourse,
+            department: validateGroup.groupDepartment,
+        });
+    } catch (error) {
+        res.status(500);
+        throw new Error("something went wrong, try again later");
+    }
+},{collection: studentGroups});
+
+
+module.exports = { findGroup, newGroup};

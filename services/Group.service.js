@@ -5,17 +5,12 @@ const mongoose = require('mongoose');
 const groupSchema = new mongoose.Schema({
     groupName: {
         type: String,
-        required: true,
-        unique: true,
+        required: [true, 'Provide a unique username'],
+        unique: [true, "Please provide username"],
     },
     groupCourse: {
         type: String,
         required: String,
-    },
-    noOfstudents: {
-        type: Number,
-        required: true,
-        max: 10,
     },
     groupDepartment: {
         type: String,
