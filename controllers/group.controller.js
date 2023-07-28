@@ -82,4 +82,24 @@ const findGroup = expressAsyncHandler(async (req, res) => {
 },{collection: studentGroups});
 
 
+const findByGroupById = expressAsyncHandler( async( req,res)=>{
+    const { id } = req.body;
+    try {
+        const foundGroup = await Group.findById({ _id: id});
+    if(!foundGroup){
+        res.status(403);
+        res.json("status error 403! Not found");
+    } else {
+        res.status(202);
+        res.json({
+            groupName: foundGroup.groupName,
+            leader: foundGroup.groupLeader,
+            department: 
+        });
+    }
+    } catch (error) {
+        res.status(500);
+        throw new Error(error);
+    }
+});
 module.exports = { findGroup, newGroup};
