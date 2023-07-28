@@ -79,27 +79,37 @@ const findGroup = expressAsyncHandler(async (req, res) => {
         res.status(500);
         throw new Error("something went wrong, try again later");
     }
-},{collection: studentGroups});
+}, { collection: studentGroups });
 
 
-const findByGroupById = expressAsyncHandler( async( req,res)=>{
+const findByGroupById = expressAsyncHandler(async (req, res) => {
     const { id } = req.body;
     try {
-        const foundGroup = await Group.findById({ _id: id});
-    if(!foundGroup){
-        res.status(403);
-        res.json("status error 403! Not found");
-    } else {
-        res.status(202);
-        res.json({
-            groupName: foundGroup.groupName,
-            leader: foundGroup.groupLeader,
-            department: 
-        });
-    }
+        const foundGroup = await Group.findById({ _id: id });
+        if (!foundGroup) {
+            res.status(403);
+            res.json("status error 403! Not found");
+        } else {
+            res.status(202);
+            res.json({
+                groupName: foundGroup.groupName,
+                leader: foundGroup.groupLeader,
+                department: foundGroup.groupDepartment,
+                members: foundGroup.groupMembers,
+                course: foundGroup.groupCourse
+            });
+        }
     } catch (error) {
         res.status(500);
         throw new Error(error);
     }
+}); 0
+
+const deleteGroup = expressAsyncHandler(async (req, res) => {
+    const { id } = req.body;
+    const findGroup = await Group.findByIdAndDelete({ _id: id });
+    if (findGroup) {
+        res.status(200).json({ message: "groupDeleted" });
+    }
 });
-module.exports = { findGroup, newGroup};
+module.exports = { findGroup, newGroup, findByGroupById };

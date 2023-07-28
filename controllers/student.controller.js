@@ -1,12 +1,18 @@
 //save student
+const expressAsyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
+
 
 const Student = require('../services/student.service');
-const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../utilities/generateToken');
 
 const createStudent = expressAsyncHandler(async (req, res) => {
-    const { userName, email, course, department, admissionNo } = req.body;
+    const { userName, email, course, department, admissionNo, password } = req.body;
 
+    if (!userName || !email || !course || !department || !admissionNo || !password) {
+        res.status(400);
+        throw new Error("bad request, fields cannot be empty")
+    }
     const isDuplicate = await Student.findOne({ userName });
     if (isDuplicate) {
         res.status(400);
@@ -17,12 +23,15 @@ const createStudent = expressAsyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('fields cannot be blank')
         }
+        const salt = 10;
+        const hashedPassword = await bcrypt.hash(password, salt);
         const student = await Student.create({
             userName,
             email,
             course,
             department,
             admissionNo,
+            password: hashedPassword
         });
         await student.save();
         if (student) {
