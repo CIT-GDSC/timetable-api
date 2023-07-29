@@ -44,3 +44,13 @@ const registerCouncil = expressAsyncHandler(async (req, res) => {
         });
     };
 });
+
+
+const getInfoByID = expressAsyncHandler(async (req, res) => {
+    const council = await Council.findById(req.params.id);
+    if (council) {
+        res.send(council);
+    } else {
+        res.status(404).send({ message: 'Council not found' });
+    }
+});
