@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
 
-//**@desc  */
-
 
 const studentSchema = new mongoose.Schema({
     userName: {
         type: String,
         required: true,
         unique: true,
+    },
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true
     },
     password: {
         type: String,
