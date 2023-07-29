@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-
-
-
 const councilSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -23,7 +20,15 @@ const councilSchema = new mongoose.Schema({
     admissionNo: {
         type: String,
         required: true,
-    }
+    },
+    position: {
+        type: String,
+        required: true,
+    },
+    department: {
+        type: String,
+        required: true,
+    },
 });
 
 

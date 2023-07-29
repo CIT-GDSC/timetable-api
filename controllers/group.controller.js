@@ -83,7 +83,7 @@ const findGroup = expressAsyncHandler(async (req, res) => {
 
 
 const findByGroupById = expressAsyncHandler(async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params.id;
     try {
         const foundGroup = await Group.findById({ _id: id });
         if (!foundGroup) {
