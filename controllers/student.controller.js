@@ -74,7 +74,7 @@ const loginStudent = expressAsyncHandler(async (req, res) => {
             isVerified: student.isverified,
         });
     } else {
-        res.status(200);
+        res.status(403);
         throw new Error("invalid credentials or user not found");
     }
 

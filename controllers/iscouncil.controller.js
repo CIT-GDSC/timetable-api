@@ -54,3 +54,6 @@ const getInfoByID = expressAsyncHandler(async (req, res) => {
         res.status(404).send({ message: 'Council not found' });
     }
 });
+
+
+module.exports = {getInfoByID, registerCouncil};

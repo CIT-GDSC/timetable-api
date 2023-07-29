@@ -103,7 +103,7 @@ const findByGroupById = expressAsyncHandler(async (req, res) => {
         res.status(500);
         throw new Error(error);
     }
-}); 0
+}); 
 
 const deleteGroup = expressAsyncHandler(async (req, res) => {
     const { id } = req.body;
