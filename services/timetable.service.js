@@ -1,8 +1,5 @@
 const mongooose = require('mongoose');
 
-
-
-
 const timetableSchema = new mongooose.Schema({
     headline: {
         type: String,
@@ -28,7 +25,7 @@ const timetableSchema = new mongooose.Schema({
         type: String,
         required: true
     },
-    trainer : {
+    trainer: {
         type: String,
         required: true
     },
@@ -56,5 +53,9 @@ const timetableSchema = new mongooose.Schema({
         type: String,
         required: true
     },
-    
-});
+
+}, { timestamps: true });
+
+
+const TimeTable = mongoose.model('Timetable', timetableSchema);
+module.exports = { TimeTable }
