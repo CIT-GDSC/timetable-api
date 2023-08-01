@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 
-const { errorhandler } = require('./middleware/errorHandler.module');
+const { errorhandler } = require('./middleware/errorHandler');
 const { connectDatabase } = require('./database/mongoose.module');
 
 
