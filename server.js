@@ -4,12 +4,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const colors = require('colors');
-const bodyParser = require('body-parser');
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(
+    credentials = true,
+));
 app.use(express.json());
+
 
 
 const { errorhandler } = require('./middleware/errorHandler.module');
@@ -20,7 +20,7 @@ const { connectDatabase } = require('./database/mongoose.module');
 // Connect to database
 promise = connectDatabase();
 
-app.use('/api/student/', require('./routes/studentRoute.service'));
+app.use('/api/student/', require('./routes/students'));
 
 
 

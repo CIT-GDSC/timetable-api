@@ -79,8 +79,18 @@ const loginStudent = expressAsyncHandler(async (req, res) => {
     }
 
 });
+
+const getStudents = expressAsyncHandler(async (req, res) => {
+    const students = await Student.find({});
+    if (students) {
+        res.sendStatus(200).json({ students });
+    } else {
+        res.sendStatus(404).json("No students found");
+    }
+});
+
 const getMyProfile = expressAsyncHandler(async (req, res) => {
     const student = await Student.findById({ _id: req.params.id });
     student ? res.status(200).json({ student }) : res.status(404).json("No details found");
 })
-module.exports = { createStudent, getMyProfile, loginStudent }
+module.exports = { createStudent, getMyProfile, loginStudent, getStudents }
