@@ -31,3 +31,32 @@ export const register = expressAsyncHandler(async (req, res) => {
         return res.sendStatus(500).json("server failed")
     }
 });
+
+
+export const login = expressAsyncHandler(async (req, res) => {
+    const {email, password } = req.body;
+    if(!email || !password){
+        return res.sendStatus(400).json("input not recieved");
+    }
+    try {
+        const student = await getStudentByEmail(email).select('+authentication.salt +authentication.password');
+        if(!student){
+            res.sendStatus(404).json("email not found")
+            return;
+        }
+        const expectedHash = authentication(student.authentication.salt, password);
+        if(!student.authentication.password !== expectedHash){
+            res.sendStatus(403).json("unauthorized");
+        }
+        //update the session token
+        const salt = generateRandomString();
+        student.authentication.sessionToken = authentication(salt, user._id.toString());
+        await user.save();
+        //set cookies
+        res.cookie('timetable_api', student.authentication.sessionToken, { domains: 'localhost', path: '/'});
+        res.status(200).json(user).end();
+    } catch (error) {
+        throw new Error(error);
+        res.sendStatus(500);
+    }
+});
