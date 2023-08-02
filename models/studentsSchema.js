@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const studentSchema = new mongoose.Schema({
-    userName: { type: String, required: true, unique: true, },
+    userName: { type: String, required: true },
     firstName: { type: String, required: true, },
     lastName: { type: String, required: true },
     email: { type: String, required: true, },
@@ -21,7 +21,7 @@ const studentModel = mongoose.model('student', studentSchema);
 
 const getStudents = () => studentModel.find({});
 const getStudentById = (id) => studentModel.findById(id);
-const getStudentByEmail = (email) => studentModel.findOne(email);
+const getStudentByEmail = (email) => studentModel.findOne({email});
 const getStudentBySessionToken = (sessionToken) => studentModel({
     'authentication.sessionToken': sessionToken
 });

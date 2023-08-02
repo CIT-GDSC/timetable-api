@@ -1,6 +1,6 @@
 const expressAsyncHandler = require('express-async-handler');
 
-const { authentication, generateRandomString } = require('../models/studentsSchema');
+const { authentication, generateRandomString } = require('../utils');
 const { createStudent, getStudentByEmail } = require('../models/studentsSchema');
 
 const register = expressAsyncHandler(async (req, res) => {
@@ -8,7 +8,6 @@ const register = expressAsyncHandler(async (req, res) => {
     if (!userName || !firstName || !lastName || !email || !course || !department || !admissionNo || !password) {
         return res.status(400).json("Input cannot be blank");
     }
-
     try {
         const isDuplicate = await getStudentByEmail(email);
         if (isDuplicate) {
@@ -26,7 +25,7 @@ const register = expressAsyncHandler(async (req, res) => {
         res.status(200).json(student);
     } catch (error) {
         console.error(error);
-        res.status(500).json("Server failed");
+        res.status(500).json("Server error, please try again later");
     }
 });
 
@@ -35,7 +34,6 @@ const login = expressAsyncHandler(async (req, res) => {
     if (!email || !password) {
         return res.status(400).json("Input not received");
     }
-
     try {
         const student = await getStudentByEmail(email).select('+authentication.salt +authentication.password');
         if (!student) {
@@ -44,7 +42,7 @@ const login = expressAsyncHandler(async (req, res) => {
 
         const expectedHash = authentication(student.authentication.salt, password);
         if (student.authentication.password !== expectedHash) {
-            return res.status(403).json("Unauthorized");
+            return res.status(403).json("Unauthorized, please check your password");
         }
 
         const salt = generateRandomString();
@@ -55,7 +53,7 @@ const login = expressAsyncHandler(async (req, res) => {
         res.status(200).json(student);
     } catch (error) {
         console.error(error);
-        res.status(500).json("Internal Server Error");
+        res.status(500).json("Internal Server Error, please try again later");
     }
 });
 
