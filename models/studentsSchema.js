@@ -17,16 +17,26 @@ const studentSchema = new mongoose.Schema({
     }
 });
 
-export const studentModel = mongoose.model('student', studentSchema);
+const studentModel = mongoose.model('student', studentSchema);
 
-export const getStudents = () => studentModel.find({});
-export const getStudentById = (id) => studentModel.findById(id);
-export const getStudentByEmail = (email) => studentModel.findOne(email);
-const getUserBySessionToken = (sessionToken) => studentModel({
+const getStudents = () => studentModel.find({});
+const getStudentById = (id) => studentModel.findById(id);
+const getStudentByEmail = (email) => studentModel.findOne(email);
+const getStudentBySessionToken = (sessionToken) => studentModel({
     'authentication.sessionToken': sessionToken
 });
-export const createStudent = (values) => new studentModel(values).save()
+const createStudent = (values) => new studentModel(values).save()
     .then((student) => student.toObject());
 
-export const deleteUserById = (id) => studentModel.findOneAndDelete({ _id: id });
-export const updateUserById = (id, values) => studentModel.findByIdAndUpdate(id, values);
+const deleteStudentById = (id) => studentModel.findOneAndDelete({ _id: id });
+const updateStudentById = (id, values) => studentModel.findByIdAndUpdate(id, values);
+
+module.exports = {
+    getStudents,
+    getStudentByEmail,
+    getStudentById,
+    getStudentBySessionToken,
+    createStudent,
+    deleteStudentById,
+    updateStudentById
+}

@@ -4,13 +4,14 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const colors = require('colors');
+const cookieParser = require('cookie-parser')
 
+app.use(cookieParser());
 app.use(cors(
     credentials = true,
 ));
 app.use(express.json());
-
-
+app.use(express.urlencoded({ extended: true}));
 
 const { errorhandler } = require('./middleware/errorHandler');
 const { connectDatabase } = require('./database/mongoose.module');
@@ -19,18 +20,15 @@ const { connectDatabase } = require('./database/mongoose.module');
 
 // Connect to database
 promise = connectDatabase();
+const router = require('./routes/router');
+app.use('/', router());
 
-app.use('/api/student/', require('./routes/students'));
-
-
-
-app.use('/welcome', (req, res) => { res.send('Welcome to the student council API')});
 
 
 /**Error handlers below */
 app.use(errorhandler);
 
-app.listen(process.env.port  , () => {
+app.listen(process.env.port, () => {
     console.log(`Server running on port ${process.env.port}`.yellow.bold);
     console.log(`attempting to connect to database...`.yellow.bold);
 });

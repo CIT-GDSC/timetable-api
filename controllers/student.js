@@ -3,20 +3,18 @@ const expressAsyncHandler = require('express-async-handler');
 const { authentication, generateRandomString } = require('../models/studentsSchema');
 const { createStudent, getStudentByEmail } = require('../models/studentsSchema');
 
-
-
-export const register = expressAsyncHandler(async (req, res) => {
+const register = expressAsyncHandler(async (req, res) => {
     const { userName, firstName, lastName, email, course, department, admissionNo, password } = req.body;
     if (!userName || !firstName || !lastName || !email || !course || !department || !admissionNo || !password) {
-        return res.sendStatus(400).json("Input cannot be blank");
+        return res.status(400).json("Input cannot be blank");
     }
+
     try {
         const isDuplicate = await getStudentByEmail(email);
         if (isDuplicate) {
-            return res.sendStatus(400).json("email already registered");
+            return res.status(400).json("Email already registered");
         }
 
-        //authenticate student
         const salt = generateRandomString();
         const student = await createStudent({
             userName, firstName, lastName, email, course, department, admissionNo,
@@ -27,36 +25,38 @@ export const register = expressAsyncHandler(async (req, res) => {
         });
         res.status(200).json(student);
     } catch (error) {
-        throw new Error(error);
-        return res.sendStatus(500).json("server failed")
+        console.error(error);
+        res.status(500).json("Server failed");
     }
 });
 
-
-export const login = expressAsyncHandler(async (req, res) => {
-    const {email, password } = req.body;
-    if(!email || !password){
-        return res.sendStatus(400).json("input not recieved");
+const login = expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json("Input not received");
     }
+
     try {
         const student = await getStudentByEmail(email).select('+authentication.salt +authentication.password');
-        if(!student){
-            res.sendStatus(404).json("email not found")
-            return;
+        if (!student) {
+            return res.status(404).json("Email not found");
         }
+
         const expectedHash = authentication(student.authentication.salt, password);
-        if(!student.authentication.password !== expectedHash){
-            res.sendStatus(403).json("unauthorized");
+        if (student.authentication.password !== expectedHash) {
+            return res.status(403).json("Unauthorized");
         }
-        //update the session token
+
         const salt = generateRandomString();
-        student.authentication.sessionToken = authentication(salt, user._id.toString());
-        await user.save();
-        //set cookies
-        res.cookie('timetable_api', student.authentication.sessionToken, { domains: 'localhost', path: '/'});
-        res.status(200).json(user).end();
+        student.authentication.sessionToken = authentication(salt, student._id.toString());
+        await student.save();
+
+        res.cookie('timetable_api', student.authentication.sessionToken, { domain: 'localhost', path: '/' });
+        res.status(200).json(student);
     } catch (error) {
-        throw new Error(error);
-        res.sendStatus(500);
+        console.error(error);
+        res.status(500).json("Internal Server Error");
     }
 });
+
+module.exports = { login, register };
