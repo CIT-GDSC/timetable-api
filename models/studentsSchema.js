@@ -7,9 +7,8 @@ const studentSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true, },
     course: { type: String, required: true, },
-    isCouncil: { type: Boolean, default: false, },
     department: { type: String, required: true, },
-    isverified: { type: String, default: "unverified", },
+    // isverified: { type: String, default: "unverified", },
     admissionNo: { type: String, required: true, unique: true, },
     authentication: {
         password: { required: true, type: String, select: false },
@@ -18,6 +17,16 @@ const studentSchema = new mongoose.Schema({
     }
 });
 
+export const studentModel = mongoose.model('student', studentSchema);
 
-const Student = mongoose.model('Student', studentSchema);
-module.exports = Student;
+export const getStudents = () => studentModel.find({});
+export const getStudentById = (id) => studentModel.findById(id);
+export const getStudentByEmail = (email) => studentModel.findOne(email);
+const getUserBySessionToken = (sessionToken) => studentModel({
+    'authentication.sessionToken': sessionToken
+});
+export const createStudent = (values) => new studentModel(values).save()
+    .then((student) => student.toObject());
+
+export const deleteUserById = (id) => studentModel.findOneAndDelete({ _id: id });
+export const updateUserById = (id, values) => studentModel.findByIdAndUpdate(id, values);
