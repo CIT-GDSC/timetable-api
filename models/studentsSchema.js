@@ -21,7 +21,7 @@ const studentModel = mongoose.model('student', studentSchema);
 
 const getStudents = () => studentModel.find({});
 const getStudentById = (id) => studentModel.findById(id);
-const getStudentByEmail = (email) => studentModel.findOne({email});
+const getStudentByEmail = (email) => studentModel.findOne({ email });
 const getStudentBySessionToken = (sessionToken) => studentModel({
     'authentication.sessionToken': sessionToken
 });
@@ -38,5 +38,6 @@ module.exports = {
     getStudentBySessionToken,
     createStudent,
     deleteStudentById,
-    updateStudentById
+    updateStudentById,
+    studentModel
 }
