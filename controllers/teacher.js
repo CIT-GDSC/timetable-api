@@ -45,3 +45,8 @@ const teacherUpdate = expressAsyncHandler(async(req,res)=>{
         throw new Error(error);
     }
 });
+
+module.exports = {
+    teacherUpdate,
+    createTeacher
+}

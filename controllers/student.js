@@ -32,6 +32,7 @@ const register = expressAsyncHandler(async (req, res) => {
 const login = expressAsyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
+        throw new Error("cannot process request")
         return res.status(400).json("Input not received");
     }
     try {
