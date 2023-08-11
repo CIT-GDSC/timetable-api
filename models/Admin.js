@@ -16,7 +16,7 @@ const adminSchema = mongoose.Schema({
 const adminModel = mongoose.model('admin', adminSchema);
 
 
-
+const getAdminByEmail = (email) => adminModel.findOne({ email });
 const getAdmins = () => adminModel.find({});
 const getAdminsById = (id) => adminModel.findById(id);
 const createAdmin = (values) => new adminModel(values).save().then((admin) => admin.toObject());
@@ -30,5 +30,6 @@ module.exports = {
     getAdminsById,
     createAdmin,
     getAdminBySessionToken,
+    getAdminByEmail,
     adminModel
 }
